@@ -1,7 +1,10 @@
-package com.prototype.SpringPrototype;
+package com.prototype.SpringPrototype.session;
 
 import com.prototype.SpringPrototype.exceptionHandler.SessionExpiredException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Component;
@@ -14,6 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class UserSessionWrapper {
 
 
@@ -51,6 +55,7 @@ public class UserSessionWrapper {
         String sessionId = (String) httpSession.getAttribute("sessionId");
         if (sessionId != null) {
             sessionRepository.deleteById(sessionId);
+            log.info("Invalidating Session  {}", sessionId);
             httpSession.invalidate();
         }
     }
@@ -59,7 +64,8 @@ public class UserSessionWrapper {
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute(USER_ATTRIBUTE) == null) {
-            throw new SessionExpiredException("Session has expired or user is not logged in.");
+            log.info("Invalid Session!!");
+            throw new SessionExpiredException("Session has expired or user is not logged in !");
         }
     }
     public void setLastLoginTime(String username, LocalDateTime lastLoginTime) {

@@ -25,6 +25,7 @@ public class UserData {
 		@NotBlank(message = "Invalid User Name: Empty User Name")
 	    @NotNull(message = "Invalid User Name: User Name is NULL")
 	    @Size(min = 3, max = 30, message = "Invalid User Name: Must be of 3 - 30 characters")
+		@Column(name = "username")
 	    private String userName;
 	    @Email(message = "Invalid email")
 	    private String email;

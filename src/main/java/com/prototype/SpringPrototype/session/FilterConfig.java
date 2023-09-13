@@ -1,5 +1,6 @@
-package com.prototype.SpringPrototype;
+package com.prototype.SpringPrototype.session;
 
+import com.prototype.SpringPrototype.session.SessionFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

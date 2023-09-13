@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Bean
 	public UserDetailsService getUserDetailsService() {
-		return new UserDataService();
+		return new CustomUserDetailsService();
 	}
 
 	@Bean
@@ -43,17 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	}
 
-
-
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests().antMatchers("/admin/**").hasAnyRole("ADMIN")
 		.antMatchers("/user/**").hasRole("USER")
 		.antMatchers("/**").permitAll().and().formLogin().loginPage("/login").loginProcessingUrl("/login")
-		.defaultSuccessUrl("/user").and().csrf().disable();
+		.defaultSuccessUrl("/userPage").and().csrf().disable();
 	}
+
 
 	@Bean
 	public AuthenticationFailureHandler authenticationFailureHandler() {

@@ -21,6 +21,7 @@
                     <div class="card-header text-center fs-4">Login Page</div>
                     <div  th:if="${param.error != null}" class="alert alert-danger">Invalid Username & Password</div>
                     <div  th:if="${param.logout != null}" class="alert alert-success">Logout Successfully</div>
+                    <div  th:if="${param.timeout != null}" class="alert alert-success">Session Timeout!</div>
                     <div class="card-body">
                         <form action="/userLogin" method="POST">
                             <input type="text" name="username" placeholder="Username">
