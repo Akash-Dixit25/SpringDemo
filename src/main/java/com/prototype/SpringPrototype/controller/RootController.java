@@ -56,7 +56,9 @@ public class RootController {
             LocalDateTime lastLoginTime = LocalDateTime.now();
             userSessionWrapper.setLastLoginTime(username, lastLoginTime);
             log.info("sessionId: {} ", sessionId);
+
             return "redirect:/userPage";
+
         } else if ("admin".equals(username) && "admin123".equals(password)) {
             String sessionId = userSessionWrapper.createSession(session, username);
             session.setAttribute("user", username);
@@ -65,7 +67,18 @@ public class RootController {
             userSessionWrapper.setLastLoginTime(username, lastLoginTime);
             log.info("sessionId: {} ", sessionId);
             return "redirect:/adminPage";
-        } else {
+        }
+        else if ("user2".equals(username) && "password".equals(password)) {
+            String sessionId = userSessionWrapper.createSession(session, username);
+            session.setAttribute("user", username);
+            session.setAttribute("loginTime", System.currentTimeMillis());
+            LocalDateTime lastLoginTime = LocalDateTime.now();
+            userSessionWrapper.setLastLoginTime(username, lastLoginTime);
+            log.info("sessionId: {} ", sessionId);
+            return "redirect:/userPage";
+        }
+
+        else {
             // Redirect to the login page with an error message
             log.info("Inside the error");
             return "redirect:/login?error=true";
@@ -89,7 +102,7 @@ public class RootController {
             return "redirect:/home";
         }
         Optional<String> username = userSessionWrapper.getUsername(session);
-        log.info("LoggedIn user: {} ", session.getAttribute("user"));
+        log.info("LoggedIn user: {} {} ", session.getAttribute("user"),session.getAttribute("userData"));
 
         // Check if the user has been logged in for more than 15 minutes
 

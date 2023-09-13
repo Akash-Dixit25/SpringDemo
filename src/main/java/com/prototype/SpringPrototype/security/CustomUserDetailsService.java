@@ -21,12 +21,18 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .roles("USER")
                 .build();
 
+        UserDetails user2 = User.withUsername("user2")
+                .password("{noop}password") // {noop} indicates plain text password
+                .roles("USER")
+                .build();
+
         UserDetails admin = User.withUsername("admin")
                 .password("{noop}admin123")
                 .roles("ADMIN")
                 .build();
 
         users.put("user", user);
+        users.put("user2", user2);
         users.put("admin", admin);
     }
 
