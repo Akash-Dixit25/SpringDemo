@@ -16,17 +16,10 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                    <div class="card-header text-center fs-4">Login Page</div>
-                   <!-- <div  th:if="${param.error != null}" class="alert alert-danger">Invalid Username & Password</div>-->
                     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
                     <div  th:if="${param.logout != null}" class="alert alert-success">Logout Successfully</div>
                     <div  th:if="${param.timeout != null}" class="alert alert-success">Session Timeout!</div>
                     <div class="card-body">
-                        <form action="/userLogin" method="POST">
-                            <input type="text" name="username" placeholder="Username">
-                            <input type="password" name="password" placeholder="Password">
-                            <input type="submit" value="Login">
-                        </form>
                     </div>
                 </div>
             </div>
@@ -34,10 +27,5 @@
     </div>
 
 </section>
-
-<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-MrcW6ZMFYlzclA8Nl+NtUVF0sA7MsXsP1UyJoMp4YlEuNSfAP+JcXn/tWtIaxVXM"
-		crossorigin="anonymous"></script>
 </body>
 </html>

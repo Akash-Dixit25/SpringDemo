@@ -1,6 +1,8 @@
 package com.prototype.SpringPrototype.controller;
 
 
+import com.prototype.SpringPrototype.exceptionHandler.LoginException;
+import com.prototype.SpringPrototype.exceptionHandler.UserAccessException;
 import com.prototype.SpringPrototype.service.SessionTimeoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.websocket.AuthenticationException;
@@ -81,7 +83,8 @@ public class RootController {
         else {
             // Redirect to the login page with an error message
             log.info("Inside the error");
-            return "redirect:/login?error=true";
+            throw new LoginException("Invalid username or password");
+
         }
     }
 
@@ -114,14 +117,16 @@ public class RootController {
             return "redirect:/login?timeout=true";
         }
         // Display the home page
-        return "login";
+        return "home";
     }
 
     @GetMapping("/userPage")
     public String userPage(HttpSession session) {
         // Verify if the user is logged in
+        log.info("LoggedIn user userpage: {} ", session.getAttribute("user"));
+
         if (session.getAttribute("user") == null) {
-            return "redirect:/userPage";
+            return "redirect:/login";
         }
 
         log.info("LoggedIn user: {} ", session.getAttribute("user"));
@@ -141,13 +146,13 @@ public class RootController {
     public String adminPage(HttpSession session) {
 
         if (session.getAttribute("user") == null) {
-            return "redirect:/adminPage";
+            return "redirect:/login";
+        }else if ("user".equals((session.getAttribute("user")))||"user2".equals((session.getAttribute("user")))) {
+            throw new UserAccessException("Access Denied!");
         }
+        // Check if the user has been logged in for more than 15 minutes
         Optional<String> username = userSessionWrapper.getUsername(session);
         log.info("LoggedIn user: {} ", session.getAttribute("user"));
-
-        // Check if the user has been logged in for more than 15 minutes
-
         boolean isLoggedOut = sessionTimeoutService.isUserLoggedInForMoreThan15Minutes(userSessionWrapper.getLastLoginTime((String) session.getAttribute("user")));
         if (isLoggedOut) {
             session.invalidate();
@@ -156,5 +161,29 @@ public class RootController {
         return "admin";
     }
 
+
+    @GetMapping("/product")
+    public String getProductManagementPage(HttpSession session) {
+        log.info("LoggedIn user product page: {} ", session.getAttribute("user"));
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+
+        if ("user".equals((session.getAttribute("user")))||"user2".equals((session.getAttribute("user")))) {
+            throw new UserAccessException("Access Denied! Only Admin can view this page.");
+
+        }
+        return "product";
+    }
+
+    @GetMapping("/DMSI")
+    public String DMSIguideline(HttpSession session) {
+        return "dmsi";
+    }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact";
+    }
 
 }
