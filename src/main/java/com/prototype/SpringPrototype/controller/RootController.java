@@ -178,9 +178,6 @@ public class RootController {
 
     @GetMapping("/DMSI")
     public String DMSIguideline(HttpSession session) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
         return "dmsi";
     }
 
